@@ -1,6 +1,5 @@
 from aiogram import types, Router, F
 from aiogram.filters import Command
-
 agency_router = Router()
 
 @agency_router.message(Command("travel"))
