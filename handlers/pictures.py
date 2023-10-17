@@ -1,7 +1,8 @@
-from aiogram import types
+from aiogram import types, Router
 from aiogram.filters import Command
 
-@dp.message(Command('pic'))
+pic_router = Router()
+@pic_router.message(Command('pic'))
 async def pic(message: types.Message):
     file = types.FSInputFile('images/kesha.jpg')
     await message.answer_photo(file)
