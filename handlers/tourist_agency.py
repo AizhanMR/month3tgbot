@@ -1,5 +1,7 @@
 from aiogram import types, Router, F
 from aiogram.filters import Command
+from handlers.start import start
+
 agency_router = Router()
 
 @agency_router.message(Command("travel"))
@@ -9,13 +11,17 @@ async def agency(message: types.Message):
             [types.KeyboardButton(text="Тюрьма")],
             [
                 types.KeyboardButton(text="Канализация"),
-                types.KeyboardButton(text = "комната"),
+                types.KeyboardButton(text="комната"),
+                types.KeyboardButton(text='назад')
             ],
         ],
         resize_keyboard=True,
     )
     await message.answer("Выберите локацию:", reply_markup=kb)
 
+@agency_router.message(F.text.lower() == "назад")
+async def start(message: types.Message):
+    await start(message)
 
 @agency_router.message(F.text.lower() == "тюрьма")
 async def prison(message: types.Message):

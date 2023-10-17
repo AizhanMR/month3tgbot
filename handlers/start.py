@@ -8,7 +8,7 @@ start_router = Router()
 async def start(message: types.Message):
     kb = types.InlineKeyboardMarkup(
         inline_keyboard=[
-            [types.InlineKeyboardButton(text="Наш сайт", url="https://web.telegram.org")],
+            [types.InlineKeyboardButton(text="Наше местополоежение", url="https://web.telegram.org")],
             [
                 types.InlineKeyboardButton(
                     text="Наш твиттер", url="https://twitter.com"
@@ -23,7 +23,7 @@ async def start(message: types.Message):
 'about_us'.startswith('about')
 'about_us'.endswith('us')
 
+
 @start_router.callback_query(F.data.startswith("about"))
 async def show_about_us(call: types.CallbackQuery):
-    await call.answer('мы очень уважамая компания основание: 1398 год до н.э')
-    await call.message.answer("О нас")
+    await call.message.answer('О нас: мы очень уважамая компания основание: 1398 год до н.э')
