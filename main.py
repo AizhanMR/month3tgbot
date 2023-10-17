@@ -1,33 +1,28 @@
 import asyncio
-from aiogram import Bot, Dispatcher, types
-from aiogram.filters import Command
-from dotenv import load_dotenv
-from os import getenv
+from aiogram.types import BotCommand
 from logging import basicConfig
 
 
-load_dotenv()
-bot = Bot(token=getenv('BOT_TOKEN'))
-dp = Dispatcher()
-
-@dp.message(Command('start'))
-async def start(message: types.Message):
-    await message.answer(f'Hi {message.from_user.first_name}')
-
-@dp.message(Command('myinfo'))
-async def myinfo(message: types.Message):
-    await message.answer(f'your id is: {message.from_user.id}')
-    await message.answer(f'your first name is: {message.from_user.first_name}')
-    await message.answer(f'your username: {message.from_user.username}')
-
-
-@dp.message(Command('pic'))
-async def pic(message: types.Message):
-    file = types.FSInputFile('images/sewer.jpg')
-    await message.answer_photo(file)
+from bot import dp, bot
+from handlers.start import start_router
+from handlers.echo import echo_router
+from handlers.tourist_agency import agency_router
 
 
 async def main():
+    await bot.set_my_commands(
+        [
+            BotCommand(command='start', description='Главная'),
+            BotCommand(command='pic', description='Картинка')
+        ]
+    )
+
+    # роутеры
+    dp.include_router(start_router)
+    dp.include_router(agency_router)
+
+    # в самом конце
+    dp.include_router(echo_router)
     await dp.start_polling(bot)
 
 if __name__ == '__main__':
